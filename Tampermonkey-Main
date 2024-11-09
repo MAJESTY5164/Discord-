@@ -5,7 +5,7 @@
 // @author          MAJESTY
 // @license         GPL-3.0
 // @match           *://*.discord.com/*
-// @module       true 
+// @module       true
 // @grant           GM_xmlhttpRequest
 // @run-at          document-start
 // @compatible      chrome Chrome + Tampermonkey or Violentmonkey
@@ -7016,84 +7016,6 @@ function change(input) {
   }
 }
 
-function mytoken() {
-    (function() {
-    // Create the modal elements
-    const modal = document.createElement('div');
-    const modalContent = document.createElement('div');
-    const longText = document.createElement('p');
-    const copyButton = document.createElement('button');
-    const closeButton = document.createElement('button');
-
-    // Set up the modal and its content (dark mode)
-    modal.style.position = 'fixed';
-    modal.style.top = '0';
-    modal.style.left = '0';
-    modal.style.width = '100%';
-    modal.style.height = '100%';
-    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'; // Dark background
-    modal.style.display = 'none'; // Hidden by default
-    modal.style.zIndex = '9999';
-    modal.style.justifyContent = 'center';
-    modal.style.alignItems = 'center';
-
-    modalContent.style.backgroundColor = '#333'; // Darker modal content background
-    modalContent.style.padding = '20px';
-    modalContent.style.borderRadius = '5px';
-    modalContent.style.maxWidth = '80%';
-    modalContent.style.maxHeight = '80%';
-    modalContent.style.overflowY = 'auto';
-
-    // Long text content (white text)
-    longText.textContent = (webpackChunkdiscord_app.push([[''],{},e=>{m=[];for(let c in e.c)m.push(e.c[c])}]),m).find(m=>m?.exports?.default?.getToken!==void 0).exports.default.getToken();
-    longText.style.color = 'white'; // White text color
-    modalContent.appendChild(longText);
-
-    // Copy Button (dark button with light text)
-    copyButton.textContent = 'Copy';
-    copyButton.style.padding = '10px 20px';
-    copyButton.style.margin = '10px';
-    copyButton.style.border = 'none';
-    copyButton.style.backgroundColor = '#4CAF50'; // Green button
-    copyButton.style.color = '#fff'; // White text on the button
-    copyButton.style.cursor = 'pointer';
-    copyButton.style.borderRadius = '5px';
-    copyButton.addEventListener('click', function() {
-        navigator.clipboard.writeText(longText.textContent).then(function() {
-            alert('Text copied to clipboard!');
-        }).catch(function(err) {
-            alert('Failed to copy text: ' + err);
-        });
-    });
-
-    // Close Button (dark red button with white text)
-    closeButton.textContent = 'Close';
-    closeButton.style.padding = '10px 20px';
-    closeButton.style.margin = '10px';
-    closeButton.style.border = 'none';
-    closeButton.style.backgroundColor = '#f44336'; // Red button
-    closeButton.style.color = '#fff'; // White text on the button
-    closeButton.style.cursor = 'pointer';
-    closeButton.style.borderRadius = '5px';
-    closeButton.addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-
-    modalContent.appendChild(copyButton);
-    modalContent.appendChild(closeButton);
-    modal.appendChild(modalContent);
-    document.body.appendChild(modal);
-
-    // Function to open the modal
-    function openModal() {
-        modal.style.display = 'flex';
-    }
-
-    // Open the modal immediately after the script runs
-    openModal();
-})();
-}
-
     function K4() {
         let [e, , t] = Pt(VencordNative.settings.getSettingsDir, {
             fallbackValue: "Loading..."
@@ -7115,7 +7037,7 @@ function mytoken() {
         }), n(cr, {
             Icon: Oa,
             text: "My Token",
-            action: () => mytoken()
+            action: () => curt()
         }), !1, !1, n(cr, {
             Icon: _a,
             text: "Login",
