@@ -1,1 +1,3 @@
-# Discord-
+# Discord+
+
+Watch tutorial to install
