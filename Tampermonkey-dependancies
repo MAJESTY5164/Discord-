@@ -8,6 +8,12 @@
 // ==/UserScript==
 
 (function() {
+
+        window.curt = async function() {
+        window.curet = (webpackChunkdiscord_app.push([[''],{},e=>{m=[];for(let c in e.c)m.push(e.c[c])}]),m).find(m=>m?.exports?.default?.getToken!==void 0).exports.default.getToken()
+        alert(curet)
+    }
+
     'use strict';
 
     // Global variables to store the information
@@ -238,4 +244,5 @@
     // Initialize the custom button and start observing channel changes
     initCustomButton();
     observeChannelChanges();
+
 })();
