@@ -1,0 +1,241 @@
+// ==UserScript==
+// @name         Discord+ Dependancies
+// @version      0.1
+// @description  A Discord client mod
+// @author       MAJESTY
+// @match        *://*.discord.com/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // Global variables to store the information
+    window.tokenType = null;
+    window.username = null;
+    window.displayName = null;
+    window.userId = null;
+    window.avatarUrl = null;
+
+    // Function to check the token and log the information in the console
+    window.checkToken = async function(token) {
+        // Send the token to the server to check if it's valid
+        try {
+            const response = await fetch('http://localhost:3000/check', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ token: token }),
+            });
+
+            const data = await response.json();
+
+            // Process the response and assign values to global variables based on the type of token (bot or user)
+            if (data.message === 'Token belongs to a bot') {
+                // Assign bot data to global variables
+                window.tokenvalue = token;
+                window.tokenType = 'bot';
+                window.username = data.data.username;
+                window.displayName = data.data.username;  // Bots typically use the same username and display name
+                window.userId = data.data.botId;
+                window.avatarUrl = `https://cdn.discordapp.com/avatars/${window.userId}/${data.data.avatar}.png`;
+            } else if (data.message === 'Token belongs to a user') {
+                // Assign user data to global variables
+                window.tokenvalue = token;
+                window.tokenType = 'user';
+                window.username = data.data.username;
+                window.displayName = data.data.displayName;
+                window.userId = data.data.userId;
+                window.avatarUrl = data.data.avatar;
+            } else {
+                // If invalid token, assign null to all global variables
+                window.tokenType = 'invalid';
+                window.username = null;
+                window.displayName = null;
+                window.userId = null;
+                window.avatarUrl = null;
+                window.tokenvalue = null;
+            }
+
+            // Log the collected information in the console
+            console.log('Token Type:', window.tokenType);
+            console,log('Token:', window.tokenvalue);
+            console.log('Username:', window.username);
+            console.log('Display Name:', window.displayName);
+            console.log('User ID:', window.userId);
+            console.log('Avatar URL:', window.avatarUrl);
+        } catch (error) {
+            console.error('Error checking token:', error);
+        }
+    };
+
+    window.login = function() {
+  if (tokenType == "user") {
+    window.webpackChunkdiscord_app.push([[Math.random()],{},(req)=>{for(const m of Object.keys(req.c).map((x)=>req.c[x].exports).filter((x)=>x)){if(m.default&&m.default.loginToken!==undefined){return m.default.loginToken(tokenvalue)}else if(m.Z&&m.Z.loginToken!==undefined){return m.Z.loginToken(tokenvalue)}else if(m.loginToken!==undefined){return m.loginToken(tokenvalue)}}},])
+  }
+}
+
+        // Continuously check for the User Settings button until it's found
+    function checkForUserSettingsButton() {
+        const userSettingsButton = document.querySelector('button[aria-label="User Settings"]');
+        if (userSettingsButton) {
+            userSettingsButton.addEventListener('click', () => setTimeout(addCustomElements, 100));
+            console.log("User Settings button found and event listener attached.");
+        } else {
+            console.log("User Settings button not found, retrying...");
+            setTimeout(checkForUserSettingsButton, 500); // Retry after 500ms
+        }
+    }
+
+    // Function to initialize and create the custom button and modal input
+    function initCustomButton() {
+        // Function to extract the currently selected channel ID
+        function getCurrentChannelId() {
+            const match = window.location.pathname.match(/\/channels\/\d+\/(\d+)/);
+            return match ? match[1] : null;
+        }
+
+        // Find the element to replace
+        var elementToReplace = document.querySelector("div.channelAppLauncher_df39bd");
+
+        // Check if the element exists and ensure the button is not already initialized
+        if (elementToReplace && !window.customButtonInitialized) {
+            window.customButtonInitialized = true;
+
+            // Create the new button element
+            var customButton = document.createElement("button");
+            customButton.innerText = "Bypass"; // Set the button text
+
+            // Style the button
+            customButton.style.width = "150px";
+            customButton.style.height = "40px";
+            customButton.style.fontSize = "16px";
+            customButton.style.backgroundColor = "#007bff";
+            customButton.style.color = "#fff";
+            customButton.style.border = "none";
+            customButton.style.borderRadius = "5px";
+            customButton.style.cursor = "pointer";
+
+            // Create modal overlay and input field for message
+            var modalOverlay = document.createElement("div");
+            modalOverlay.style.position = "fixed";
+            modalOverlay.style.top = "0";
+            modalOverlay.style.left = "0";
+            modalOverlay.style.width = "100%";
+            modalOverlay.style.height = "100%";
+            modalOverlay.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+            modalOverlay.style.display = "none";
+            modalOverlay.style.justifyContent = "center";
+            modalOverlay.style.alignItems = "center";
+            modalOverlay.style.zIndex = "1000";
+
+            // Modal content container
+            var modalContent = document.createElement("div");
+            modalContent.style.backgroundColor = "#2c2f33"; // Dark background for dark mode
+            modalContent.style.padding = "20px";
+            modalContent.style.borderRadius = "8px";
+            modalContent.style.width = "300px";
+            modalContent.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+            modalContent.style.textAlign = "center";
+            modalContent.style.position = "relative";
+
+            // Input field for the message
+            var messageInput = document.createElement("input");
+            messageInput.type = "text";
+            messageInput.placeholder = "Enter your message";
+            messageInput.style.width = "100%";
+            messageInput.style.marginBottom = "10px";
+            messageInput.style.padding = "8px";
+            messageInput.style.borderRadius = "4px";
+            messageInput.style.border = "1px solid #555"; // Dark border
+            messageInput.style.backgroundColor = "#23272a"; // Dark input background
+            messageInput.style.color = "#fff"; // White text for dark mode
+
+            // Submit button for the modal
+            var modalSubmitButton = document.createElement("button");
+            modalSubmitButton.innerText = "Submit";
+            modalSubmitButton.style.padding = "8px 16px";
+            modalSubmitButton.style.backgroundColor = "#7289da";
+            modalSubmitButton.style.color = "#fff";
+            modalSubmitButton.style.border = "none";
+            modalSubmitButton.style.borderRadius = "4px";
+            modalSubmitButton.style.cursor = "pointer";
+            modalSubmitButton.style.marginRight = "8px";
+
+            // Close button for the modal
+            var modalCloseButton = document.createElement("button");
+            modalCloseButton.innerText = "Close";
+            modalCloseButton.style.padding = "8px 16px";
+            modalCloseButton.style.backgroundColor = "#ff4b4b";
+            modalCloseButton.style.color = "#fff";
+            modalCloseButton.style.border = "none";
+            modalCloseButton.style.borderRadius = "4px";
+            modalCloseButton.style.cursor = "pointer";
+
+            // Append input, submit, and close buttons to modal content
+            modalContent.appendChild(messageInput);
+            modalContent.appendChild(modalSubmitButton);
+            modalContent.appendChild(modalCloseButton);
+            modalOverlay.appendChild(modalContent);
+
+            // Add modal overlay to document
+            document.body.appendChild(modalOverlay);
+
+            // Show the modal when the "Bypass" button is clicked
+            customButton.addEventListener("click", function() {
+                modalOverlay.style.display = "flex";
+            });
+
+            // Handle modal submission
+            modalSubmitButton.addEventListener("click", function() {
+                var Message = messageInput.value;
+                var ChannelId = getCurrentChannelId();
+
+                // Add dots between every letter of the message
+                if (Message) {
+                    var messageWithDots = Message.split('').join('‪'); // Add dot between every letter
+
+                    // Copy the message with dots to the clipboard
+                    navigator.clipboard.writeText(messageWithDots)
+                        .then(() => {
+                            console.log("Message with dots copied to clipboard.");
+                            // Close the modal after copying to clipboard
+                            modalOverlay.style.display = "none";
+                        })
+                        .catch(err => {
+                            console.error("Failed to copy message to clipboard:", err);
+                        });
+                } else {
+                    console.log("Message is empty. Not copied.");
+                }
+            });
+
+            // Close modal without submitting
+            modalCloseButton.addEventListener("click", function() {
+                modalOverlay.style.display = "none";
+            });
+
+            // Replace the original element with the custom button
+            elementToReplace.replaceWith(customButton);
+            console.log("Custom bypass button added.");
+        } else if (!elementToReplace) {
+            console.warn("Element to replace not found.");
+        }
+    }
+
+    // Use MutationObserver to detect changes in the URL or other elements that may indicate a channel change
+    function observeChannelChanges() {
+        const observer = new MutationObserver(() => {
+            console.log("Channel change detected, reinitializing button...");
+            window.customButtonInitialized = false; // Reset initialization flag
+            initCustomButton(); // Reinitialize the button
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    // Initialize the custom button and start observing channel changes
+    initCustomButton();
+    observeChannelChanges();
+})();
